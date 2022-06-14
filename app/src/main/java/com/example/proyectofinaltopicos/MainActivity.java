@@ -32,6 +32,7 @@ class RunaDeLolcito implements Serializable{
     //*******************************************************
     //runa main
     private String runaPrincipal;
+    private String runaClave;
     private String [] ranuras = new String[3];
     //runa secundaria
     private String subRuna;
@@ -48,17 +49,17 @@ class RunaDeLolcito implements Serializable{
 
     RunaDeLolcito(){
         id = 0;
-        campeon = null;
-        runaPrincipal = null;
+        campeon = "";
+        runaPrincipal = "";
         for (int i = 0; i<3 ; i++)
-            ranuras[i] = null;
+            ranuras[i] ="";
 
-        subRuna = null;
+        subRuna = "";
         for (int j = 0; j<2 ; j++)
-            subRanura[j] = null;
+            subRanura[j] = "";
 
-        tipoRuna = null;
-        linea = null;
+        tipoRuna = "";
+        linea = "";
         valor = 0;
     }
 
@@ -73,6 +74,10 @@ class RunaDeLolcito implements Serializable{
 
     public void setRunaPrincipal(String runaPrincipal) {
         this.runaPrincipal = runaPrincipal;
+    }
+
+    public void setRunaClave(String runaClave) {
+        this.runaClave = runaClave;
     }
 
     public void setRanuras(int pos, String valor) {
@@ -128,6 +133,14 @@ class RunaDeLolcito implements Serializable{
         return runaPrincipal;
     }
 
+    public String getRunaClave() {
+        return runaClave;
+    }
+
+    public String[] getSubRanura() {
+        return subRanura;
+    }
+
     public String getSubRuna() {
         return subRuna;
     }
@@ -144,6 +157,7 @@ class RunaDeLolcito implements Serializable{
         System.out.println("ID: " + this.id );
         System.out.println("Nombre deL campeon: " +  this.campeon );
         System.out.println("Runa Principal: " +  this.runaPrincipal );
+        System.out.println("Runa clave: " +  this.runaClave );
         for (int i = 0; i<3 ; i++)
             System.out.println("Ranura No." + i + " :" +  this.ranuras[i] );
 

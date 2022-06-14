@@ -10,8 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoFinalTopicos">
         <activity
-            android:name=".A2_CrearRuna2"
+            android:name=".A2_ListaDeRunas"
             android:exported="false" />
+        <activity
+            android:name=".ui.login.A2_ListaDeRunas"
+            android:exported="false"
+            android:label="@string/title_activity_a2_lista_de_runas" />
         <activity
             android:name=".A1_CrearRuna"
             android:exported="false" />

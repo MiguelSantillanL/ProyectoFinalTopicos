@@ -3,12 +3,14 @@ package com.example.proyectofinaltopicos;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.RestrictionEntry;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -29,9 +31,7 @@ public class A1_CrearRuna extends AppCompatActivity {
     String [] ranura2 = new String[3]; //ranura2
     String [] ranura3 = new String[3]; //ranura3
     String [] ranura3d = new String[4]; //ranura3 para dominacion
-
     String [] runaLolcito = new String[9]; //valor final
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,18 +62,15 @@ public class A1_CrearRuna extends AppCompatActivity {
         actv_lolChampions.setThreshold(1);
         actv_lolChampions.setAdapter(adapterChampList);
 
-
         //para mostrar los valores de la runa main
         ArrayAdapter adapterRuneMainList = new ArrayAdapter(this, android.R.layout.select_dialog_item,mainRunes); //strings de campeones a un ArrayAdapter
         spin_RuneMain.setAdapter(adapterRuneMainList);
-
         //verificar runa principal para mostrar subrunas
         spin_RuneMain.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
                     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                        //String item1 = parent.getSelectedItemPosition(pos);
-
-                        //Object item = parent.getItemAtPosition(pos);
+                        Object item = parent.getItemAtPosition(pos);
+                        runaLolcito[1] = item.toString();
                         //System.out.println("valor " + pos + " : " + item.toString());     //prints the text in spinner item.
                         getActivateRanuras(pos);
                     }
@@ -81,16 +78,21 @@ public class A1_CrearRuna extends AppCompatActivity {
                     }
                 });
 
+
         //runas secundarias
         spin_subRuna.setAdapter(adapterRuneMainList);
         spin_subRuna.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
                     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                        Object item = parent.getItemAtPosition(pos);
+                        runaLolcito[6] = item.toString();
                         getSecondRun(pos);
                     }
                     public void onNothingSelected(AdapterView<?> parent) {
                     }
                 });
+
+
 
     }
 
@@ -100,58 +102,91 @@ public class A1_CrearRuna extends AppCompatActivity {
     } // fin de btn_A1Regresar
 
     public void btn_A1Guardar(View view) throws IOException {
-        InputStream campeonList = getResources().openRawResource(R.raw.runas);
-        InputStreamReader campeon = new InputStreamReader(campeonList);
-        BufferedReader BufferEntrada = new BufferedReader(campeon);
-        int numRunes = 0;
-        try {
-            numRunes = Integer.valueOf(BufferEntrada.readLine());
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
+
 
         runaLolcito[0] =  actv_lolChampions.getText().toString(); //campeon
         runaLolcito[1] = spin_RuneMain.getSelectedItem().toString(); //runa main
-        runaLolcito[2] = spin_runaClave.getSelectedItem().toString();
+        runaLolcito[2] = spin_runaClave.getSelectedItem().toString(); //runa clave
+        //sub runa clave
         runaLolcito[3] = spin_ranura1.getSelectedItem().toString();
         runaLolcito[4] = spin_ranura2.getSelectedItem().toString();
         runaLolcito[5] = spin_ranura3.getSelectedItem().toString();
+        //runa secundaria
         runaLolcito[6] = spin_subRuna.getSelectedItem().toString();
-        runaLolcito[7] = spin_subRuna1.getSelectedItem().toString();
-        runaLolcito[8] = spin_subRuna2.getSelectedItem().toString();
+        runaLolcito[7] = spin_subRuna1.getSelectedItem().toString(); //sub runa sec
+        runaLolcito[8] = spin_subRuna2.getSelectedItem().toString(); //sub runa sec
+        for (int i = 0 ; i<9 ; i++)
+            System.out.println(runaLolcito[i]);
 
-        FileOutputStream ArchivoSalida = openFileOutput("runas.txt", MODE_PRIVATE);
-        //Para faciltar la escritura en el Archivo de Salida utilizamos otra clase llamada OutputStreamWrite
-        OutputStreamWriter OutputText=new OutputStreamWriter(ArchivoSalida);
+        int numElem;
+        try { //Para crear un archivo de texto usamos el Metodo openFileOutput, el cual nos regresa un
+            // objeto de clase FileOutputStream
+            FileOutputStream ArchivoSalida = openFileOutput("runasLoL.txt", MODE_PRIVATE);
+            //Para faciltar la escritura en el Archivo de Salida utilizamos otra clase llamada OutputStreamWrite
+            OutputStreamWriter OutputText = new OutputStreamWriter(ArchivoSalida);
 
-        try {
-            if (numRunes==0){
-                OutputText.write(numRunes+1);
-                for (int i = 0; i<9 ; i++ )
-                    OutputText.write(runaLolcito[i]);
+
+
+            numElem = numElemnts();
+            int temp = 0;
+
+            for (int i= 0; i<(9*numElem +9) ; i++){
+                //if (numElem ==0 )
+                //    OutputText.write(runaLolcito[temp] + "\n");
+                if (i >= (9*numElem-1))
+                    OutputText.write(runaLolcito[temp] + "\n");
+                temp++;
             }
-            else{
-                OutputText.write(numRunes+1);
-                for (int i = 0; i<numRunes ; i++ )
-                    OutputText.write("");
-                for (int i = 0; i<9 ; i++ )
-                    OutputText.write(runaLolcito[i]);
-            }
+
+            incNumElemnt(numElem);
+
+
+
+            //incNumElemnt(0);
+
+
             OutputText.close();
             ArchivoSalida.close();
-        }catch (Exception e){
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
 
+    }
 
+    public void incNumElemnt(int num){
+        try {
+            FileOutputStream ArchivoSalida = openFileOutput("numRunas.txt", MODE_PRIVATE);
+            //Para faciltar la escritura en el Archivo de Salida utilizamos otra clase llamada OutputStreamWrite
+            OutputStreamWriter OutputText = new OutputStreamWriter(ArchivoSalida);
+            int varor = num+1;
 
+            //OutputText.write(0 + "\n");
 
-        /*
-        System.out.println("Nombre del campeon " + runaLolcito[0]);
-        System.out.println("Runa main " + runaLolcito[1]); */
+            OutputText.write( varor + "\n");
+            OutputText.close();
+            ArchivoSalida.close();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-
-
+    public int numElemnts(){
+        int temp = -1;
+        try { //Para crear un archivo de texto usamos el Metodo openFileOutput, el cual nos regresa un
+            // objeto de clase FileOutputStream
+            FileInputStream ArchivoDeLectura = openFileInput("numRunas.txt");
+            InputStreamReader TextoDeEntrada = new InputStreamReader(ArchivoDeLectura);
+            BufferedReader BufferEntrada = new BufferedReader(TextoDeEntrada);
+            temp =  Integer.valueOf(BufferEntrada.readLine());
+            BufferEntrada.close();
+            TextoDeEntrada.close();
+            ArchivoDeLectura.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return temp;
     }
 
     public void getChampionList(){
