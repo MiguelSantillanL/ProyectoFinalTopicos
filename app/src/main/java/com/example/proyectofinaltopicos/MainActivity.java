@@ -23,6 +23,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(runa);
     }//fin btn_nuevaRuna
 
+    public  void btn_listRunas(View view){
+        Intent lst_Runa = new Intent(this, A2_ListaDeRunas.class);
+        startActivity(lst_Runa);
+    }
+
+
 }//FIN ACTIVIDAD PRINCIPAL
 
 class RunaDeLolcito implements Serializable{

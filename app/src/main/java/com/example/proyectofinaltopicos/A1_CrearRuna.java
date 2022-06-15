@@ -71,7 +71,7 @@ public class A1_CrearRuna extends AppCompatActivity {
                     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                         Object item = parent.getItemAtPosition(pos);
                         runaLolcito[1] = item.toString();
-                        //System.out.println("valor " + pos + " : " + item.toString());     //prints the text in spinner item.
+                        System.out.println("valor " + pos + " : " + item.toString());     //prints the text in spinner item.
                         getActivateRanuras(pos);
                     }
                     public void onNothingSelected(AdapterView<?> parent) {
