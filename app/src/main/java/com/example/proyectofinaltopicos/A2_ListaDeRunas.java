@@ -26,6 +26,7 @@ public class A2_ListaDeRunas extends AppCompatActivity {
     String [] runaType = { " " , "AD", "AP", "Support", "Tanque"};
     String [] lineaPlayer = { " ", "TOP", "JG", "MID", "BOT" };
     String [] calif = {" ", " 1  ✡" ," 2  ✡" ," 3  ✡" ," 4  ✡" ," 5  ✡" };
+    String [] prueba = {"Campeón"," Tanque" , "1  ✡"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,8 @@ public class A2_ListaDeRunas extends AppCompatActivity {
                 ac_tvA2Champions.setVisibility(View.VISIBLE);
                 ac_tvA2Champions.setThreshold(1);
                 ac_tvA2Champions.setAdapter(adapterChampList);
+
+
 
             }
             else if (opc == 2){ //runa principal
@@ -129,6 +132,8 @@ public class A2_ListaDeRunas extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+        p
 
 
 
